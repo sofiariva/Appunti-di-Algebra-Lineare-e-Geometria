@@ -3,6 +3,8 @@
 \usepackage{amsthm}
 \usepackage{dsfont}
 \usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows}
 \theoremstyle{definition}
 \newtheorem{thm}{Theorem}[section]
 \newtheorem{defn}[thm]{Definizione}
@@ -249,7 +251,9 @@ tra le soluzioni ci sono sicuramente $\underline{O}$ e $\mathds{Id_n}$, ma non s
 \newpage
 \begin{defn} \textbf{(Sviluppo di Laplace del determinante)} \\
     Il determinante è una funzione 
-    \[ det: M_{\mathds{K}}(n,n)\rightarrow\mathds{K} \]
+    \[ 
+        det: M_{\mathds{K}}(n,n)\rightarrow\mathds{K}
+    \]
     definita (ricorsivamente) come: 
     \begin{itemize}
         \item [(n = 1)] $det([a_{11}]) = a_{ij}$
@@ -265,12 +269,125 @@ tra le soluzioni ci sono sicuramente $\underline{O}$ e $\mathds{Id_n}$, ma non s
     in cui $j$ è un indice di colonna fissato, $a_{ij}$ è l'elemento di $\boldsymbol{A}$ sulla i-esima riga e j-esima colonna, e $\hat{A}_{ij}$ è la matrice in $M_\mathds{K}(n-1, n-1)$ ottenuta da $\boldsymbol{A}$ cancellando la i-esima riga e la j-esima colonna
 \end{defn}
 \medbreak
-%\noindent Si noti che in questa definizione stiamo assumendo che il risultato non dipenda dalle scelte di righe e colonne
+\noindent Si noti che in questa definizione stiamo assumendo che il risultato non dipenda dalle scelte di righe e colonne
+\noindent Osserviamo che se n = 2:
+\[
+    A = \begin{bmatrix}
+    a_{11} &  a_{12} \\
+    a_{21} &  a_{22} \\
+    \end{bmatrix}
+\]
+\noindent Fissata i = 1
+\[ 
+    det(A) \sum_{j = 1}^{2}(-1)^{1+j}det(\hat{A}) = (-1)^{1+1}a_{11}det(\hat{A_{11}}) + (-1)^{1+2}a_{12}det(\hat{A_{12}}) = 
+\]
+\[
+    = a_{11}det([a_{22}]) - a_{12}det{[a_{21}]} = 
+\]
+\[
+    = a_{11}a_{22} - a_{12}a_{21}
+\]
+\noindent Se invece n = 3 utilizziamo quella che prende il nome di Regola di Sarrus:
+La regola di Sarrus permette di calcolare il determinante di una matrice \( 3 \times 3 \). Per una matrice
+\[
+A = \begin{pmatrix}
+a_{11} & a_{12} & a_{13} \\
+a_{21} & a_{22} & a_{23} \\
+a_{31} & a_{32} & a_{33}
+\end{pmatrix}
+\]
+il determinante è dato da
+\[
+\text{det}(A) = a_{11} \cdot a_{22} \cdot a_{33} + a_{12} \cdot a_{23} \cdot a_{31} + a_{13} \cdot a_{21} \cdot a_{32} - \left( a_{13} \cdot a_{22} \cdot a_{31} + a_{11} \cdot a_{23} \cdot a_{32} + a_{12} \cdot a_{21} \cdot a_{33} \right)
+\]
+\noindent tale risultato si ottiene scrivendo la matrice $A$ e accostando la stessa matrice sulla destra, sommando i prodotti degli elementi sulle prime tre diagonali che si incontrano procedento da sinistra a destra, e sottraendo i prodotti degli elementi sulle antidiagonali incontrate procedendo invece da destra verso sinistra
+\newpage
+Cosa rappresenta il determinante di una matrice?
+\bigbreak
 
+\begin{tikzpicture}[scale=1]
 
+% primo triangolo
+% Assi
+\draw[->] (-0.5,0) -- (1.5,0);
+\draw[->] (0,-0.5) -- (0,1.5);
 
+% Lati
+\draw[thick] (0,1) -- (1,1) -- (1,0) -- cycle;
 
+% Punti 
+\fill[blue] (0,1) circle (2pt) node[left] {$[0,1]$};
+\fill[blue] (1,1) circle (2pt) node[right] {$[1,1]$};
+\fill[blue] (1,0) circle (2pt) node[below] {$[1,0]$};
 
+% T0
+\node at (0.75,0.75) {$T_0$};
 
+\hspace{1cm}
+% matrice
+\node at (2.5,1) {$\begin{bmatrix} 1 & 2 \\ 0 & t \end{bmatrix}$};
+\hspace{1cm}
 
+% freccia
+\draw[->] (1,0.25) -- (2,0.25);
+
+% Assi
+\draw[->] (3,0) -- (7.5,0);
+\draw[->] (4,-0.5) -- (4,1.5);
+
+% punti 2
+\coordinate (P1) at (4,0);
+\coordinate (P2) at (5,1);
+\coordinate (P3) at (6,1);
+
+% triangolo 2
+\draw[thick, blue] (P1) -- (P2) -- (P3) -- cycle;
+
+% Punti
+\fill[blue] (P1) circle (2pt) node[below left] {$P_1$};
+\fill[blue] (P2) circle (2pt) node[above left] {$P_2$};
+\fill[blue] (P3) circle (2pt) node[above right] {$P_3$};
+
+% Linee tratteggiate
+\draw[dashed] (P2) -- (6,1);
+\draw[dashed] (P3) -- (6,0);
+
+\end{tikzpicture}
+
+\[
+A(P_1\Hat{P_2}P_3) = \frac{|t|}{2}, \quad A(T_0) = \frac{1}{2}
+\]
+\[
+\text{det} \left(\begin{bmatrix} 1 & 2 \\ 0 & t \end{bmatrix} \right) = t - 0 = t
+\]
+
+\vspace{1cm}
+\noindent IDEA: il determinante di una matrice ci indica come cambiano le aree dopo una trasformazione effettuata tramite un prodotto matriciale
+\vspace{1cm}
+
+\noindent N.B. Prima di iniziare con il calcolo del determinante è bene osservare la matrice e, se possibile, individuare la scelta di riga/colonna favorevole, cioè quella che minimizza i calcoli da svolgere. \break
+Esempio:
+\[
+    B = \begin{bmatrix}
+        9 & 2 & -2 \\
+        2 & 2 & 0 \\
+        -2 & 0 & 2 \\
+    \end{bmatrix}
+\]
+Sebbene il risultato non dipenda dalla scelta della riga o colonna da fissare, si nota che la scelta di i = 1 ci porta a svolgere più calcoli:
+\[ 
+    det(B) = b_{11}det(\begin{bmatrix} 2 & 0 \\ 0 & 2 \end{bmatrix}) - b_{12}det(\begin{bmatrix} 2 & 0 \\ -2 & 2 \end{bmatrix}) + b_{13}det(\begin{bmatrix} 2 & 2 \\ -2 & 0 \end{bmatrix}) = 20
+\]
+Se scegliamo invece i = 2:
+\[ 
+    det(B) = -b_{21}det(\begin{bmatrix} 2 & -2 \\ 0 & 2 \end{bmatrix}) + b_{22}det(\begin{bmatrix} 9 & -2 \\ -2 & 2 \end{bmatrix}) + b_{23}det(\hat{B_{23}}) = 20
+\]
+$b_{23} = 0$, dunque non è necessario calcolare $det(\hat{B_{23}})$
+
+\vspace{1cm}
+\begin{center}
+    Matrici con determinante facile da calcolare
+\end{center}
+\begin{itemize}
+    \item
 \end{document}
