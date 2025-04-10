@@ -389,8 +389,24 @@ $b_{23} = 0$, dunque non è necessario calcolare $det(\hat{B_{23}})$
     Matrici con determinante facile da calcolare
 \end{center}
 \begin{itemize}
-    \item a
-    
+    \item [(i)] se $A \in M_\mathds{K}(n,n)$ ha una riga o colonna composta da soli elementi uguali a 0, allora $det(A) = 0$. \smallbreak
+    Infatti, fissando la riga/colonna di soli 0 si ha:
+    \[ 
+        det(A) = \sum_{i = 1}^{n}(-1)^{i+j}a_{ij}det(\Hat{A}_{ij}) = 0
+    \]
+    \item [(ii)] se $A \in \mathds{M}_K(n,n)$  ha due righe o due colonne uguali, $det(A) = 0$
 \end{itemize}
+
+\newpage
+
+\begin{itemize}
+     \item [(iii)] \begin{defn} Una matrice $T \in M_K(n,n)$ si dice \begin{itemize}
+        \item [-] \textit{triangolare superiore} se $t_{ij} = 0 \hspace{0.5cm} \forall i < j$
+        \item [-] \textit{triangolare inferiore} se $t_{ij} = 0 \hspace{0.5cm} \forall i > j$
+     \end{itemize}
+     \end{defn}
+\end{itemize}
+
+    
 
 \end{document}
