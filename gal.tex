@@ -14,6 +14,22 @@
 \newtheorem{rem}{Remark}[thm]
 \newtheorem{ill}{Illustration}[thm]
 
+\makeatletter
+\newcommand{\hathat}[1]{% 
+\begingroup%
+  \let\macc@kerna\z@%
+  \let\macc@kernb\z@%
+  \let\macc@nucleus\@empty%
+  \hat{\mathchoice%
+    {\raisebox{.2ex}{\vphantom{\ensuremath{\displaystyle #1}}}}%
+    {\raisebox{.2ex}{\vphantom{\ensuremath{\textstyle #1}}}}%
+    {\raisebox{.16ex}{\vphantom{\ensuremath{\scriptstyle #1}}}}%
+    {\raisebox{.14ex}{\vphantom{\ensuremath{\scriptscriptstyle #1}}}}%
+    \smash{\hat{#1}}}%
+\endgroup%
+}
+\makeatother
+
 \usepackage[
 a4paper,
 top=2cm,
@@ -407,7 +423,105 @@ $b_{23} = 0$, dunque non è necessario calcolare $det(\hat{B_{23}})$
      \end{defn}
 \end{itemize}
 
-    
-%a
+\[
+T = 
+\begin{bmatrix}
+    t_{11} && ... && ... && ... && t_{1n} \\
+    0 && t_{22} && ... && ... && ... \\
+    0 && 0 && t_{333} &&  ... && ... \\
+    0 && 0 && 0 &&  ... && ... \\
+    0 && 0 && 0 &&  0 && t_{nn} \\
+\end{bmatrix}
+\in{M_{K}(n,n)}
+\]
+\noindent Osserviamo ora il determinante di $T$ triangolare superiore, fissiamo $j = 1$:
+\smallbreak
+
+\[
+det(T) = \sum_{i=1}^{n}(-1)^{i+1}det(\hat{T}_{i1}) = (-1)^2t_{11}det(\hat{T}_{11})
+\]
+Osserviamo che $\hat{T}_{11}$ è ancora triangolare superiore
+\[
+det(\hat{T}_{11}) = \sum_{i = 1}^{n -1}(-1)^{i+1}\hat{t}_{i1}det(\widehat{\hat{T}_{11}})_{11}
+\]
+ \smallbreak
+\[
+= t_{11}det(\widehat{\hat{T}_{11}})_{11}
+\]
+\begin{center}
+...e via così
+\end{center}
+
+\[
+\Rightarrow det(T) = t_{11}det{\hat{T}_{11}} = t_{11}\hat{t}_{11}det(\widehat{\hat{T}_{11}}){11} = ... = t_{11}t_{22}t_{33}...t_{nn}
+\]
+\vspace{0.5cm}
+
+\noindent Dunque, se $T$ è triangolare (superiore o inferiore) il determinante si calcola tramite il prodotto degli elementi sulla diagonale principale
+
+ Segue:
+ \[
+det(Id_{n}) = 1\cdot1\cdot...\cdot1
+\]   
+$\Rightarrow$ il determinante è \textit{normalizzato}
+\vspace{1cm}
+
+\noindent A questo punto vogliamo definire una procedura algoritmica che 
+\begin{itemize}
+    \item[(1)] data una qualsiasi matrice quadrata ne produca una triangolare
+    \item[(2)] permetta di calcolare il determinante della matrice originale a partire da quella triangolare
+\end{itemize}
+Introduciamo gli strumenti necessari: le tre operazioni elementari:
+\begin{itemize}
+    \item \textit{scambio} di due righe
+    \item \textit{moltiplicazione} di una riga per uno scalare non nullo
+    \item \textit{sostituzione} di una riga con la somma della riga sostituita con un multiplo di un'altra riga
+\end{itemize}
+\newpage
+\noindent Esempio:
+\[
+A = 
+ \begin{bmatrix}
+    1 && 2 && 3 \\
+    4 && 5 && 6 \\
+ \end{bmatrix}  
+ \in{M_{K}(2,3)} 
+\]
+\begin{itemize}
+    \item scambio:
+        \[
+            S_{1,2}: \hspace{1cm} A \longrightarrow 
+         \begin{bmatrix}
+            4 && 5 && 6 \\
+            1 && 2 && 3 \\
+         \end{bmatrix}   
+        \]
+    \item moltiplicazione per $\lambda \neq 0$
+         \[
+         M_{2,-4}: \hspace{1cm} A \longrightarrow
+         \begin{bmatrix}
+            1 && 2 && 3 \\
+            -16 && -20 && -24 \\
+         \end{bmatrix}   
+         \]
+    \item sostituzione di una riga con la somma di se stessa e il multiplo di un'altra riga
+         \[
+            E_{2,-4,1} = R_2(A) - 4R_1(A) \rightarrow R_2(A): 
+        \]
+        \[
+            A \longrightarrow 
+            \begin{bmatrix}
+                1 && 2 && 3 \\
+                0 && -3 && -6 \\
+            \end{bmatrix}
+         \]
+    N.B. in questo caso siamo soliti parlare di \textit{eliminazione} perché una scelta opportuna di righe e fattori ci permette di eliminare un inserimento non nullo
+\end{itemize}
+\vspace{1cm}
+
+Possiamo ora definire l'algoritmo cercato:
+\begin{center}
+Metodo di eliminazione di Gauss (MEG)
+\end{center}
 
 \end{document}
